@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>서울아산병원 장례식장 지도</title>
+
   <style>
     html, body {
       margin: 0;
@@ -10,14 +11,40 @@
     }
     #map {
       width: 100%;
-      height: 450px;
+      height: 480px;
     }
-    .info {
-      font-size: 14px;
+
+    /* 정보창 스타일 */
+    .info-window {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13px;
       line-height: 1.5;
+      padding: 6px;
+      max-width: 240px;
     }
-    .info b {
+    .info-window h3 {
+      margin: 0 0 6px 0;
       font-size: 15px;
+    }
+    .info-window .row {
+      margin-bottom: 4px;
+    }
+    .info-window .label {
+      font-weight: bold;
+    }
+    .info-window a {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: #03c75a;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 13px;
+      text-align: center;
+    }
+    .info-window a:hover {
+      background: #02b150;
     }
   </style>
 
@@ -29,6 +56,7 @@
   <div id="map"></div>
 
   <script>
+    // 기본 지도
     var map = new naver.maps.Map('map', {
       center: new naver.maps.LatLng(37.5665, 126.9780),
       zoom: 16
@@ -40,16 +68,39 @@
 
     // 정보창 내용
     var infoContent = `
-      <div class="info">
-        <b>서울아산병원 장례식장</b><br/>
-        서울 송파구 올림픽로43길 88
+      <div class="info-window">
+        <h3>서울아산병원 장례식장</h3>
+
+        <div class="row">
+          📍 서울 송파구 올림픽로43길 88
+        </div>
+
+        <div class="row">
+          📞 <span class="label">전화</span> 02-3010-2000
+        </div>
+
+        <div class="row">
+          🕒 <span class="label">운영</span> 24시간
+        </div>
+
+        <div class="row">
+          🅿️ <span class="label">주차</span> 병원 내 주차 가능 (유료)
+        </div>
+
+        <a href="https://map.naver.com/v5/directions/-/127.1043936,37.5260466,서울아산병원 장례식장"
+           target="_blank">
+          🧭 네이버 지도 길찾기
+        </a>
       </div>
     `;
 
     var infoWindow = new naver.maps.InfoWindow({
-      content: infoContent
+      content: infoContent,
+      borderWidth: 1,
+      borderColor: "#ccc"
     });
 
+    // 주소 → 좌표
     var address = "서울 송파구 올림픽로43길 88";
 
     naver.maps.Service.geocode({ query: address }, function (status, response) {
@@ -64,7 +115,7 @@
       map.setCenter(location);
       marker.setPosition(location);
 
-      // 처음부터 정보창 열기 (원하면 삭제 가능)
+      // 처음부터 정보창 열기
       infoWindow.open(map, marker);
     });
 
