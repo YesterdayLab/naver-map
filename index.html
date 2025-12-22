@@ -1,17 +1,58 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <title>네이버 지도</title>
-  <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=72mvmyxc8z"></script>
+  <meta charset="UTF-8" />
+  <title>네이버 지도 + 주소 검색</title>
+  <style>
+    #map {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+
+  <!-- 네이버 지도 API (Client ID 교체 필수) -->
+  <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=72mvmyxc8z&submodules=geocoder"></script>
 </head>
-<body style="margin:0">
-  <div id="map" style="width:100vw;height:100vh;"></div>
+<body>
+
+  <div id="map"></div>
+
   <script>
-    new naver.maps.Map('map', {
-      center: new naver.maps.LatLng(37.5665, 126.9780),
+    // 초기 지도 설정 (임시 좌표)
+    var map = new naver.maps.Map('map', {
+      center: new naver.maps.LatLng(37.5665, 126.9780), // 서울 시청
       zoom: 15
     });
+
+    var marker = new naver.maps.Marker({
+      map: map
+    });
+
+    // 주소 → 좌표 변환
+    var address = "서울특별시 송파구 올림픽로43길 88";
+
+    naver.maps.Service.geocode(
+      { query: address },
+      function (status, response) {
+        if (status !== naver.maps.Service.Status.OK) {
+          alert("주소를 찾을 수 없습니다.");
+          return;
+        }
+
+        var result = response.v2.addresses[0];
+        var lat = parseFloat(result.y);
+        var lng = parseFloat(result.x);
+
+        var location = new naver.maps.LatLng(lat, lng);
+
+        // 지도 중심 이동
+        map.setCenter(location);
+
+        // 마커 위치 설정
+        marker.setPosition(location);
+      }
+    );
   </script>
+
 </body>
 </html>
