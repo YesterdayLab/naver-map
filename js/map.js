@@ -24,9 +24,9 @@
   var infoWindow = new naver.maps.InfoWindow({
     content: `
       <div class="naver-label">
-        서울아산병원 장례식장: ${ROOM_NAME}
+        ${LOCATION_NAME}
         <div class="naver-address">
-          서울 송파구 올림픽로43길 88
+          ${ADDRESS}
         </div>
         <a class="naver-link" href="${NAVER_URL}" target="_blank">
           > 네이버 지도 바로가기
