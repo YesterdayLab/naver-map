@@ -45,13 +45,19 @@
 <script>
   var position = new naver.maps.LatLng(37.5260466, 127.1043936);
 
+  var isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
   var map = new naver.maps.Map('map', {
     center: position,
     zoom: 16,
     zoomControl: true,
     zoomControlOptions: {
-      style: naver.maps.ZoomControlStyle.LARGE,
-      position: naver.maps.Position.LEFT_CENTER
+      style: isMobile
+        ? naver.maps.ZoomControlStyle.SMALL
+        : naver.maps.ZoomControlStyle.LARGE,
+      position: isMobile
+        ? naver.maps.Position.LEFT_BOTTOM
+        : naver.maps.Position.LEFT_CENTER
     }
   });
 
