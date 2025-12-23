@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>서울아산병원 장례식장</title>
+  <title>서울아산병원 장례식장 23호실</title>
 
   <style>
     #map {
@@ -38,7 +38,7 @@
     // ✅ 줌 스크롤바
     zoomControl: true,
     zoomControlOptions: {
-      style: naver.maps.ZoomControlStyle.SMALL,
+      style: naver.maps.ZoomControlStyle.LARGE,
       position: naver.maps.Position.LEFT_CENTER
     }
   });
@@ -56,14 +56,14 @@
     anchorSize: new naver.maps.Size(0, 0),
 
     // ✅ 핀에 더 가깝게
-    pixelOffset: new naver.maps.Point(0, -28)
+    pixelOffset: new naver.maps.Point(0, -24)
   });
 
   infoWindow.open(map, marker);
 
   // 클릭 → 네이버 지도 이동
   var naverMapUrl =
-    "https://map.naver.com/v5/search/서울아산병원%20장례식장";
+    "https://naver.me/FwjWsCnx";
 
   naver.maps.Event.addListener(marker, 'click', function () {
     window.open(naverMapUrl, '_blank');
