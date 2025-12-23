@@ -48,20 +48,22 @@
     map: map
   });
 
-  // 라벨 (말풍선)
   var infoWindow = new naver.maps.InfoWindow({
-    content: '<div class="naver-label">서울아산병원 장례식장</div>',
+    content: `
+      <div class="naver-label"
+           style="cursor:pointer"
+           onclick="window.open('${naverMapUrl}', '_blank')">
+        서울아산병원 장례식장
+      </div>
+    `,
     borderWidth: 0,
     backgroundColor: 'transparent',
     anchorSize: new naver.maps.Size(0, 0),
-
-    // ✅ 핀에 더 가깝게
-    pixelOffset: new naver.maps.Point(0, -24)
+    pixelOffset: new naver.maps.Point(0, -28)
   });
 
   infoWindow.open(map, marker);
 
-  // 클릭 → 네이버 지도 이동
   var naverMapUrl =
     "https://naver.me/FwjWsCnx";
 
