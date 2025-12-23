@@ -2,132 +2,68 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>서울아산병원 장례식장 지도</title>
+  <title>서울아산병원 장례식장</title>
 
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-    }
     #map {
       width: 100%;
       height: 480px;
     }
 
-    /* 정보창 스타일 */
-    .info-window {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 13px;
-      line-height: 1.5;
-      padding: 6px;
-      max-width: 240px;
-    }
-    .info-window h3 {
-      margin: 0 0 6px 0;
-      font-size: 15px;
-    }
-    .info-window .row {
-      margin-bottom: 4px;
-    }
-    .info-window .label {
-      font-weight: bold;
-    }
-    .info-window a {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 10px;
-      background: #03c75a;
-      color: white;
-      text-decoration: none;
+    /* 네이버 스타일 말풍선 */
+    .naver-label {
+      background: #fff;
+      border: 1px solid #222;
       border-radius: 4px;
-      font-size: 13px;
-      text-align: center;
-    }
-    .info-window a:hover {
-      background: #02b150;
+      padding: 6px 10px;
+      font-size: 14px;
+      font-weight: bold;
+      white-space: nowrap;
     }
   </style>
 
-  <!-- 네이버 지도 JS API -->
   <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=72mvmyxc8z&submodules=geocoder"></script>
 </head>
 <body>
 
-  <div id="map"></div>
+<div id="map"></div>
 
-  <script>
-    // 기본 지도
-    var map = new naver.maps.Map('map', {
-      center: new naver.maps.LatLng(37.5665, 126.9780),
-      zoom: 16
-    });
+<script>
+  var address = "서울 송파구 올림픽로43길 88";
 
-    var marker = new naver.maps.Marker({
-      map: map
-    });
+  var map = new naver.maps.Map('map', {
+    center: new naver.maps.LatLng(37.5260466, 127.1043936),
+    zoom: 16
+  });
 
-    // 정보창 내용
-    var infoContent = `
-      <div class="info-window">
-        <h3>서울아산병원 장례식장</h3>
+  var marker = new naver.maps.Marker({
+    position: map.getCenter(),
+    map: map
+  });
 
-        <div class="row">
-          📍 서울 송파구 올림픽로43길 88
-        </div>
+  // 말풍선 InfoWindow
+  var infoWindow = new naver.maps.InfoWindow({
+    content: '<div class="naver-label">서울아산병원 장례식장</div>',
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+    anchorSize: new naver.maps.Size(0, 0),
+    pixelOffset: new naver.maps.Point(0, -40)
+  });
 
-        <div class="row">
-          📞 <span class="label">전화</span> 02-3010-2000
-        </div>
+  infoWindow.open(map, marker);
 
-        <div class="row">
-          🕒 <span class="label">운영</span> 24시간
-        </div>
+  // 마커 또는 말풍선 클릭 → 네이버 지도 이동
+  var naverMapUrl =
+    "https://map.naver.com/v5/search/서울아산병원%20장례식장";
 
-        <div class="row">
-          🅿️ <span class="label">주차</span> 병원 내 주차 가능 (유료)
-        </div>
+  naver.maps.Event.addListener(marker, 'click', function () {
+    window.open(naverMapUrl, '_blank');
+  });
 
-        <a href="https://map.naver.com/v5/directions/-/127.1043936,37.5260466,서울아산병원 장례식장"
-           target="_blank">
-          🧭 네이버 지도 길찾기
-        </a>
-      </div>
-    `;
-
-    var infoWindow = new naver.maps.InfoWindow({
-      content: infoContent,
-      borderWidth: 1,
-      borderColor: "#ccc"
-    });
-
-    // 주소 → 좌표
-    var address = "서울 송파구 올림픽로43길 88";
-
-    naver.maps.Service.geocode({ query: address }, function (status, response) {
-      if (status !== naver.maps.Service.Status.OK) {
-        alert("주소를 찾을 수 없습니다.");
-        return;
-      }
-
-      var result = response.v2.addresses[0];
-      var location = new naver.maps.LatLng(result.y, result.x);
-
-      map.setCenter(location);
-      marker.setPosition(location);
-
-      // 처음부터 정보창 열기
-      infoWindow.open(map, marker);
-    });
-
-    // 마커 클릭 시 정보창 토글
-    naver.maps.Event.addListener(marker, "click", function () {
-      if (infoWindow.getMap()) {
-        infoWindow.close();
-      } else {
-        infoWindow.open(map, marker);
-      }
-    });
-  </script>
+  naver.maps.Event.addListener(infoWindow, 'click', function () {
+    window.open(naverMapUrl, '_blank');
+  });
+</script>
 
 </body>
 </html>
